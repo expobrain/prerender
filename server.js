@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-var prerender = require('./lib');
+var prerender = require('./lib')
+    , util = require('./lib/util.js')
+    , _ = require('lodash');
 
 var server = prerender({
     workers: process.env.PHANTOM_CLUSTER_NUM_WORKERS,
@@ -9,13 +11,16 @@ var server = prerender({
 });
 
 
-// server.use(prerender.basicAuth());
-// server.use(prerender.whitelist());
-server.use(prerender.blacklist());
-// server.use(prerender.logger());
-server.use(prerender.removeScriptTags());
-server.use(prerender.httpHeaders());
-// server.use(prerender.inMemoryHtmlCache());
-// server.use(prerender.s3HtmlCache());
+var plugins = process.env.PRERENDER_PLUGINS || 'blacklist,removeScriptTags,httpHeaders';
+
+_.forEach(plugins.split(','), function (plugin) {
+    plugin = plugin.trim()  // Trim extra spaces
+
+    util.log({
+        message: ['...Initialising plugin', plugin]
+    })
+
+    server.use(prerender[plugin]());
+});
 
 server.start();
