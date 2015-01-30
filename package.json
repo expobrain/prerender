@@ -9,10 +9,10 @@
   },
   "dependencies": {
     "aws-sdk": "~1.13.0",
-    "cache-manager": "0.2.0",
-    "lodash": "~2.4.0",
-    "phantom": "~0.5.7",
-    "phantomjs": "~1.9.7-1"
+    "cache-manager": "^0.16.0",
+    "lodash": "^2.4.1",
+    "phantom": "^0.7.2",
+    "phantomjs": "^1.9.15"
   },
   "bin": {
     "prerender": "server.js"
